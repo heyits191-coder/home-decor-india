@@ -1,865 +1,509 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home Decor India | Premium Interior Design</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
-    
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                primary: '#eb595f', 
-                secondary: '#2d2d2d',
-                bg: '#fbf9f6',
-                accent: '#f5f5f5',
-                gold: '#c5a47e'
-              }
-            },
-            fontFamily: {
-              sans: ['"DM Sans"', 'sans-serif'],
-              serif: ['"Playfair Display"', 'serif'],
-            },
-            boxShadow: {
-              soft: '0 4px 20px rgba(0, 0, 0, 0.05)',
-              card: '0 2px 12px rgba(0, 0, 0, 0.04)',
-              glow: '0 0 15px rgba(235, 89, 95, 0.3)',
-            },
-            animation: {
-              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-              'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { 
+                        brand: { primary: '#eb595f', secondary: '#2d2d2d', bg: '#fffbf7' } 
+                    },
+                    fontFamily: { 
+                        sans: ['"DM Sans"', 'sans-serif'], 
+                        serif: ['"Playfair Display"', 'serif'] 
+                    },
+                }
             }
-          }
         }
-      }
     </script>
 
     <style>
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        /* Smooth Fade In for Page */
+        body { opacity: 0; animation: pageLoad 0.8s forwards; }
+        @keyframes pageLoad { to { opacity: 1; } }
 
-      @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(30px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
-      .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
-      .animation-delay-100 { animation-delay: 100ms; }
-      .animation-delay-200 { animation-delay: 200ms; }
-      .animation-delay-300 { animation-delay: 300ms; }
-      .animation-delay-400 { animation-delay: 400ms; }
+        /* Scroll Animations */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease-out; }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Loader Animation */
+        #loader { position: fixed; inset: 0; background: white; z-index: 9999; display: flex; justify-content: center; align-items: center; transition: opacity 0.5s; }
+        .spinner { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #eb595f; border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body>
-    <div id="root"></div>
+<body class="text-gray-800 bg-white">
 
-    <script type="text/babel" data-type="module">
-        // FIX: Using consistent React 18 imports from esm.sh to avoid version conflicts
-        import React, { useState, useEffect, useRef } from 'https://esm.sh/react@18.2.0';
-        import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
+    <div id="loader">
+        <div class="text-center">
+            <div class="spinner mx-auto mb-4"></div>
+            <p class="text-sm font-bold tracking-widest text-brand-secondary">DESIGNING YOUR DREAM...</p>
+        </div>
+    </div>
+
+    <header class="fixed top-0 w-full z-50 transition-all duration-300" id="navbar">
+        <div class="bg-brand-secondary text-white py-2 text-xs md:text-sm" id="topbar">
+            <div class="container mx-auto px-6 flex justify-between">
+                <span class="opacity-90">🏆 India's #1 Interior Design Brand</span>
+                <span class="flex items-center gap-2"><i data-lucide="phone" class="w-4 h-4"></i> 1800-123-4567</span>
+            </div>
+        </div>
+        <nav class="bg-white/95 backdrop-blur-md py-4 shadow-sm border-b border-gray-100 transition-all duration-300" id="main-nav">
+            <div class="container mx-auto px-6 flex justify-between items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-10 h-10 bg-brand-primary rounded-tr-xl rounded-bl-xl shadow-lg"></div>
+                    <div>
+                        <h1 class="font-serif text-2xl font-bold text-gray-800 leading-none">Home Decor</h1>
+                        <span class="text-[10px] uppercase tracking-[0.2em] text-gray-500">India</span>
+                    </div>
+                </div>
+
+                <div class="hidden lg:flex gap-8 text-sm font-medium text-gray-600">
+                    <a href="#interiors" class="hover:text-brand-primary transition relative group">Interiors<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full"></span></a>
+                    <a href="#kitchen" class="hover:text-brand-primary transition relative group">Kitchen<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full"></span></a>
+                    <a href="#process" class="hover:text-brand-primary transition relative group">Process<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full"></span></a>
+                    <a href="#reviews" class="hover:text-brand-primary transition relative group">Reviews<span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all group-hover:w-full"></span></a>
+                </div>
+
+                <div class="hidden lg:block">
+                    <button class="bg-brand-primary text-white px-6 py-2 rounded-full font-bold hover:bg-red-600 transition shadow-lg text-sm transform hover:scale-105">Get Free Quote</button>
+                </div>
+
+                <button class="lg:hidden" onclick="toggleMenu()">
+                    <i data-lucide="menu" class="w-8 h-8 text-gray-700"></i>
+                </button>
+            </div>
+
+            <div id="mobile-menu" class="hidden bg-white border-t p-6 flex-col gap-4 shadow-xl lg:hidden">
+                <a href="#interiors" class="font-medium text-lg text-gray-700">Interiors</a>
+                <a href="#kitchen" class="font-medium text-lg text-gray-700">Kitchen</a>
+                <a href="#process" class="font-medium text-lg text-gray-700">Process</a>
+                <button class="w-full bg-brand-primary text-white py-3 rounded-lg font-bold">Get Free Quote</button>
+            </div>
+        </nav>
+    </header>
+
+    <section class="relative h-[90vh] min-h-[600px] flex items-center pt-20">
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000" class="w-full h-full object-cover" alt="Luxury Home">
+            <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
+        </div>
         
-        // FIX: Ensuring lucide-react uses the SAME React version
-        import { 
-            Menu, X, Phone, User, Calendar, MessageSquare, Send, Sparkles, 
-            Clock, ShieldCheck, Users, CheckCircle, ArrowRight, Star, 
-            MapPin, ChevronLeft, ChevronRight, Check, Factory, PenTool, 
-            UserCheck, Home, Quote, Facebook, Instagram, Twitter, Youtube, Mail 
-        } from 'https://esm.sh/lucide-react@0.330.0?deps=react@18.2.0';
+        <div class="container mx-auto px-6 relative z-10 text-white mt-10">
+            <div class="max-w-4xl reveal">
+                <span class="bg-white/20 backdrop-blur-md px-4 py-1 rounded-full text-sm font-bold tracking-widest uppercase mb-6 inline-block border border-white/30">Premium Interiors</span>
+                <h1 class="text-5xl md:text-7xl lg:text-8xl font-serif font-bold leading-tight mb-6">
+                    Crafting Homes <br/> <span class="text-brand-primary italic">Since 2010.</span>
+                </h1>
+                <p class="text-xl text-gray-200 mb-10 max-w-xl font-light leading-relaxed">
+                    Experience the perfect blend of engineering precision and artistic luxury. Modular interiors delivered in 45 days.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <button class="bg-brand-primary text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-red-600 transition shadow-xl transform hover:-translate-y-1">Book Consultation</button>
+                    <button class="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-gray-900 transition transform hover:-translate-y-1">View Portfolio</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white animate-bounce">
+            <i data-lucide="arrow-down" class="w-8 h-8 opacity-80"></i>
+        </div>
+    </section>
 
-        // Note: Google GenAI setup
-        import { GoogleGenAI } from 'https://esm.sh/@google/genai@0.1.1';
+    <div class="bg-brand-secondary text-white py-16 relative z-20 -mt-10 mx-4 md:mx-20 rounded-2xl shadow-2xl flex flex-wrap justify-around gap-8 reveal border-b-4 border-brand-primary">
+        <div class="text-center group">
+            <div class="text-4xl font-serif font-bold text-brand-primary mb-2 group-hover:scale-110 transition-transform">15k+</div>
+            <div class="text-xs uppercase tracking-widest text-gray-400">Happy Homes</div>
+        </div>
+        <div class="text-center group">
+            <div class="text-4xl font-serif font-bold text-brand-primary mb-2 group-hover:scale-110 transition-transform">40+</div>
+            <div class="text-xs uppercase tracking-widest text-gray-400">Cities</div>
+        </div>
+        <div class="text-center group">
+            <div class="text-4xl font-serif font-bold text-brand-primary mb-2 group-hover:scale-110 transition-transform">10 Yrs</div>
+            <div class="text-xs uppercase tracking-widest text-gray-400">Warranty</div>
+        </div>
+        <div class="text-center group">
+            <div class="text-4xl font-serif font-bold text-brand-primary mb-2 group-hover:scale-110 transition-transform">4.8</div>
+            <div class="text-xs uppercase tracking-widest text-gray-400">Google Rating</div>
+        </div>
+    </div>
 
-        /* --- CONSTANTS --- */
-        const MENU_ITEMS = [
-          { label: 'Interior Designs', href: '#interiors' },
-          { label: 'Modular Kitchen', href: '#kitchen' },
-          { label: 'Wardrobe', href: '#wardrobe' },
-          { label: 'Renovation', href: '#renovation' },
-          { label: 'Offers', href: '#offers' },
-          { label: 'Cities', href: '#cities' },
-          { label: 'Customer Stories', href: '#stories' },
-        ];
+    <section class="py-24 bg-brand-bg" id="interiors">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <h2 class="text-sm font-bold text-brand-primary uppercase tracking-widest mb-2">Our Expertise</h2>
+                <h3 class="text-4xl md:text-6xl font-serif font-bold text-gray-800">Designed for Living</h3>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-lg reveal">
+                    <img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                        <p class="text-brand-primary text-xs font-bold uppercase mb-2 tracking-wider">Modern & Cozy</p>
+                        <h4 class="text-white text-3xl font-serif font-bold group-hover:text-brand-primary transition-colors">Living Room</h4>
+                        <div class="mt-4 flex items-center text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-bold">
+                            Explore <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
+                    </div>
+                </div>
 
-        const SERVICE_CATEGORIES = [
-          { title: "Living Room Designs", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4f9d?q=80&w=600&auto=format&fit=crop", link: "#" },
-          { title: "Bedroom Designs", image: "https://images.unsplash.com/photo-1616594039964-40891a90b3b5?q=80&w=600&auto=format&fit=crop", link: "#" },
-          { title: "Modular Kitchen", image: "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=600&auto=format&fit=crop", link: "#" },
-          { title: "Kids Room Designs", image: "https://images.unsplash.com/photo-1526655907044-88480373809d?q=80&w=600&auto=format&fit=crop", link: "#" },
-          { title: "Wardrobe Designs", image: "https://images.unsplash.com/photo-1595514020180-2720d2074d4a?q=80&w=600&auto=format&fit=crop", link: "#" },
-          { title: "Full Home Design", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=600&auto=format&fit=crop", link: "#" },
-        ];
+                <div class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-lg reveal" style="transition-delay: 100ms;">
+                    <img src="https://images.unsplash.com/photo-1616594039964-40891a90b3b5?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                        <p class="text-brand-primary text-xs font-bold uppercase mb-2 tracking-wider">Serene & Luxurious</p>
+                        <h4 class="text-white text-3xl font-serif font-bold group-hover:text-brand-primary transition-colors">Master Bedroom</h4>
+                         <div class="mt-4 flex items-center text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-bold">
+                            Explore <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
+                    </div>
+                </div>
 
-        const TESTIMONIALS = [
-          {
-            id: 1,
-            name: "Aisha Verma",
-            location: "Mumbai",
-            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=100&auto=format&fit=crop",
-            rating: 5,
-            text: "Home Decor India transformed our chaotic 2BHK into a serene sanctuary. The team was professional and the delivery was on time!"
-          },
-          {
-            id: 2,
-            name: "Rohan & Priya",
-            location: "Bangalore",
-            image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?q=80&w=100&auto=format&fit=crop",
-            rating: 5,
-            text: "Loved the modular kitchen designs. Extremely functional and aesthetic. The 3D visualization helped us decide quickly."
-          },
-          {
-            id: 3,
-            name: "Vikram Singh",
-            location: "Delhi",
-            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=100&auto=format&fit=crop",
-            rating: 4,
-            text: "Great experience with the renovation team. They handled everything from civil work to finishing touches seamlessly."
-          }
-        ];
+                <div class="group relative h-96 rounded-2xl overflow-hidden cursor-pointer shadow-lg reveal" style="transition-delay: 200ms;">
+                    <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=800" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90"></div>
+                    <div class="absolute bottom-0 left-0 p-8 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                        <p class="text-brand-primary text-xs font-bold uppercase mb-2 tracking-wider">Chef-Grade Utility</p>
+                        <h4 class="text-white text-3xl font-serif font-bold group-hover:text-brand-primary transition-colors">Modular Kitchen</h4>
+                         <div class="mt-4 flex items-center text-white text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-500 font-bold">
+                            Explore <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        const PORTFOLIO_ITEMS = [
-          { id: 1, title: "Modern Minimalist", category: "Living Room", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=800&auto=format&fit=crop", size: 'large' },
-          { id: 2, title: "Scandinavian Bliss", category: "Bedroom", image: "https://images.unsplash.com/photo-1617325247661-675ab4b64ae2?q=80&w=800&auto=format&fit=crop", size: 'medium' },
-          { id: 3, title: "Urban Chic", category: "Kitchen", image: "https://images.unsplash.com/photo-1565538810643-b5bdb714032a?q=80&w=800&auto=format&fit=crop", size: 'medium' },
-          { id: 4, title: "Classic Luxury", category: "Dining", image: "https://images.unsplash.com/photo-1617806118233-18e1de247200?q=80&w=800&auto=format&fit=crop", size: 'large' },
-          { id: 5, title: "Boho Vibes", category: "Balcony", image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?q=80&w=800&auto=format&fit=crop", size: 'small' },
-        ];
+    <section class="py-24 bg-white" id="process">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row gap-16 items-center">
+            <div class="w-full md:w-1/2 reveal">
+                <div class="relative">
+                    <div class="absolute -top-4 -left-4 w-20 h-20 bg-brand-bg rounded-full -z-10"></div>
+                    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=800" class="rounded-2xl shadow-2xl w-full object-cover h-[500px]" alt="Process">
+                    <div class="absolute -bottom-6 -right-6 bg-brand-primary text-white p-6 rounded-xl shadow-lg">
+                        <p class="font-serif font-bold text-2xl">45 Days</p>
+                        <p class="text-sm opacity-90">Delivery Promise</p>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/2 reveal">
+                <h3 class="text-4xl font-serif font-bold mb-8">Your Dream Home in <br/> 4 Simple Steps</h3>
+                <div class="space-y-8">
+                    <div class="flex gap-6 items-start group">
+                        <div class="w-14 h-14 bg-brand-bg rounded-full flex items-center justify-center text-brand-primary shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300 shadow-sm"><i data-lucide="user" class="w-6 h-6"></i></div>
+                        <div><h4 class="text-xl font-bold text-gray-800">1. Meet Designer</h4><p class="text-gray-500 mt-1">Share floor plan & discuss budget.</p></div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <div class="w-14 h-14 bg-brand-bg rounded-full flex items-center justify-center text-brand-primary shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300 shadow-sm"><i data-lucide="pen-tool" class="w-6 h-6"></i></div>
+                        <div><h4 class="text-xl font-bold text-gray-800">2. Design & Quote</h4><p class="text-gray-500 mt-1">Get personalized 3D designs.</p></div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <div class="w-14 h-14 bg-brand-bg rounded-full flex items-center justify-center text-brand-primary shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300 shadow-sm"><i data-lucide="factory" class="w-6 h-6"></i></div>
+                        <div><h4 class="text-xl font-bold text-gray-800">3. Manufacturing</h4><p class="text-gray-500 mt-1">Precision production in factory.</p></div>
+                    </div>
+                    <div class="flex gap-6 items-start group">
+                        <div class="w-14 h-14 bg-brand-bg rounded-full flex items-center justify-center text-brand-primary shrink-0 group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300 shadow-sm"><i data-lucide="home" class="w-6 h-6"></i></div>
+                        <div><h4 class="text-xl font-bold text-gray-800">4. Installation</h4><p class="text-gray-500 mt-1">Move in to your dream home.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        const KITCHEN_SLIDES = [
-          "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1563298723-dcfebaa392e3?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1556912173-3db9963ee790?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1484154218962-a1c002085d2f?q=80&w=1000&auto=format&fit=crop",
-          "https://images.unsplash.com/photo-1507089947368-19c1da9775ae?q=80&w=1000&auto=format&fit=crop",
-        ];
+    <section class="py-24 bg-brand-secondary text-white relative overflow-hidden" id="kitchen">
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-10 reveal">
+                <div>
+                    <span class="text-brand-primary font-bold uppercase tracking-wider text-sm">Heart of the Home</span>
+                    <h2 class="text-4xl font-serif font-bold mt-2">Modular Kitchens</h2>
+                </div>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <button onclick="prevSlide()" class="p-3 rounded-full border border-gray-600 hover:bg-brand-primary hover:border-brand-primary transition bg-gray-800"><i data-lucide="chevron-left"></i></button>
+                    <button onclick="nextSlide()" class="p-3 rounded-full border border-gray-600 hover:bg-brand-primary hover:border-brand-primary transition bg-gray-800"><i data-lucide="chevron-right"></i></button>
+                </div>
+            </div>
+            
+            <div class="relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[21/9] shadow-2xl border border-gray-700 reveal">
+                <img id="slider-img" src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200" class="w-full h-full object-cover transition-opacity duration-500">
+                <div class="absolute inset-0 bg-black/20"></div>
+                <div class="absolute bottom-8 left-8 md:bottom-12 md:left-12">
+                    <button class="bg-brand-primary text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-red-600 transition">Get Kitchen Quote</button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        /* --- SERVICES --- */
-        // Mocking env process for browser
-        window.process = { env: { API_KEY: '' } }; // Placeholder
+    <section class="py-24 bg-white">
+        <div class="container mx-auto px-6 reveal">
+            <div class="flex flex-col md:flex-row items-center gap-12 bg-brand-bg rounded-3xl p-8 md:p-12 shadow-sm">
+                <div class="w-full md:w-5/12 relative">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800" class="rounded-2xl shadow-xl w-full">
+                    <div class="absolute -bottom-5 -right-5 bg-brand-primary text-white px-6 py-3 rounded-lg font-serif font-bold shadow-lg">CEO</div>
+                </div>
+                <div class="w-full md:w-7/12">
+                    <i data-lucide="quote" class="text-brand-primary w-12 h-12 opacity-30 mb-4"></i>
+                    <h2 class="text-3xl md:text-5xl font-serif font-bold text-gray-800 mb-6 leading-tight">
+                        "We don't just build rooms; we engineer <span class="text-brand-primary">lifestyles</span>."
+                    </h2>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        When I started Home Decor India, my goal was to bridge the gap between engineering precision and artistic luxury. Your home is your sanctuary, and it deserves nothing less than perfection.
+                    </p>
+                    <div class="flex items-center gap-4 border-l-4 border-brand-primary pl-4">
+                        <div>
+                            <div class="font-bold text-xl font-serif text-gray-900">Er. Satyapal Singh</div>
+                            <div class="text-sm text-gray-500">Founder & CEO</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        const getClient = () => {
-          const apiKey = process.env.API_KEY;
-          if (!apiKey) {
-            console.warn("API_KEY not found in environment variables");
-            return null;
-          }
-          return new GoogleGenAI({ apiKey });
-        };
+    <section class="py-24 bg-white" id="reviews">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-serif font-bold text-center mb-16 reveal">Stories of Happiness</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all reveal">
+                    <div class="flex text-yellow-400 mb-4"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
+                    <p class="text-gray-600 italic mb-6">"Home Decor India handled our renovation end-to-end. The quality of materials used is outstanding."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-bg rounded-full flex items-center justify-center font-bold text-brand-primary">S</div>
+                        <div>
+                            <div class="font-bold text-gray-800">Suresh & Meera</div>
+                            <div class="text-xs text-gray-400">Mumbai</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all reveal" style="transition-delay: 100ms;">
+                    <div class="flex text-yellow-400 mb-4"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
+                    <p class="text-gray-600 italic mb-6">"Delivered 3 days before the deadline. Highly professional team and transparent pricing."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-bg rounded-full flex items-center justify-center font-bold text-brand-primary">A</div>
+                        <div>
+                            <div class="font-bold text-gray-800">Anjali Gupta</div>
+                            <div class="text-xs text-gray-400">Delhi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-2xl transition-all reveal" style="transition-delay: 200ms;">
+                    <div class="flex text-yellow-400 mb-4"><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i><i data-lucide="star" class="fill-current w-4 h-4"></i></div>
+                    <p class="text-gray-600 italic mb-6">"The 3D designs were exactly what we got in reality. Very happy with my new kitchen."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-bg rounded-full flex items-center justify-center font-bold text-brand-primary">R</div>
+                        <div>
+                            <div class="font-bold text-gray-800">Rahul Deshmukh</div>
+                            <div class="text-xs text-gray-400">Pune</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        const generateDesignAdvice = async (userPrompt) => {
-          const ai = getClient();
-          if (!ai) return "Hello! Please configure your API Key to enable AI advice. Our experts are always here to help!";
-
-          try {
-            const response = await ai.models.generateContent({
-              model: 'gemini-2.5-flash',
-              contents: userPrompt,
-              config: {
-                systemInstruction: `You are an elite interior design consultant for 'Home Decor India', a premium brand similar to Livspace. 
-                Your tone is professional, encouraging, and sophisticated.
-                Keep answers concise (under 80 words), practical, and focused on Indian homes.
-                Suggest colors, layouts, or materials based on the user's query.`,
-                temperature: 0.7,
-              }
-            });
-            return response.text || "I couldn't generate a specific design tip right now, but our experts would love to help you in person!";
-          } catch (error) {
-            console.error("Gemini API Error:", error);
-            return "I'm having trouble thinking of a design right now. Please try again.";
-          }
-        };
-
-        /* --- ENUMS --- */
-        const ChatSender = {
-          USER: 'user',
-          AI: 'ai'
-        };
-
-        /* --- COMPONENTS --- */
-
-        /* Button Component */
-        const Button = ({ 
-          children, 
-          variant = 'primary', 
-          size = 'md', 
-          fullWidth = false,
-          className = '',
-          ...props 
-        }) => {
-          const baseStyles = "inline-flex items-center justify-center font-medium transition-all duration-300 rounded-lg active:scale-95";
-          
-          const variants = {
-            primary: "bg-brand-primary text-white hover:shadow-lg hover:shadow-brand-primary/30 border border-transparent",
-            secondary: "bg-brand-secondary text-white hover:bg-gray-800 hover:shadow-lg",
-            outline: "bg-transparent border border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white",
-            ghost: "bg-transparent text-gray-600 hover:bg-gray-100"
-          };
-
-          const sizes = {
-            sm: "text-sm px-4 py-2",
-            md: "text-base px-6 py-3",
-            lg: "text-lg px-8 py-4"
-          };
-
-          const widthStyle = fullWidth ? "w-full" : "";
-
-          return (
-            <button 
-              className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${widthStyle} ${className}`}
-              {...props}
-            >
-              {children}
+    <section class="py-24 bg-brand-primary text-white text-center reveal">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-serif font-bold mb-6">Ready to Renovate?</h2>
+            <p class="text-xl opacity-90 mb-10 max-w-2xl mx-auto">Start your journey to a beautiful home today with India's most trusted experts.</p>
+            <button class="bg-white text-brand-primary px-10 py-4 rounded-full font-bold text-lg hover:bg-brand-secondary hover:text-white transition-colors shadow-2xl transform hover:scale-105">
+                Book Free Consultation
             </button>
-          );
-        };
+        </div>
+    </section>
 
-        /* ScrollReveal Component */
-        const ScrollReveal = ({
-          children,
-          variant = 'fade-up',
-          delay = 0,
-          duration = 800,
-          className = '',
-          threshold = 0.15
-        }) => {
-          const [isVisible, setIsVisible] = useState(false);
-          const ref = useRef(null);
-
-          useEffect(() => {
-            const observer = new IntersectionObserver(
-              ([entry]) => {
-                if (entry.isIntersecting) {
-                  setIsVisible(true);
-                  observer.disconnect(); 
-                }
-              },
-              { threshold }
-            );
-
-            if (ref.current) {
-              observer.observe(ref.current);
-            }
-
-            return () => observer.disconnect();
-          }, [threshold]);
-
-          const getAnimationClass = () => {
-            switch (variant) {
-              case 'fade-up': return 'translate-y-12 opacity-0';
-              case 'fade-in': return 'opacity-0';
-              case 'slide-left': return '-translate-x-12 opacity-0';
-              case 'slide-right': return 'translate-x-12 opacity-0';
-              case 'zoom-in': return 'scale-90 opacity-0';
-              default: return 'translate-y-12 opacity-0';
-            }
-          };
-
-          const activeClass = isVisible 
-            ? 'opacity-100 translate-y-0 translate-x-0 scale-100' 
-            : getAnimationClass();
-
-          return (
-            <div
-              ref={ref}
-              className={`transition-all cubic-bezier(0.16, 1, 0.3, 1) ${className} ${activeClass}`}
-              style={{ 
-                transitionDuration: `${duration}ms`, 
-                transitionDelay: `${delay}ms`,
-                transitionTimingFunction: 'cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-              }}
-            >
-              {children}
+    <footer class="bg-[#1a1a1a] text-white pt-20 pb-10">
+        <div class="container mx-auto px-6 text-center md:text-left">
+            <div class="grid md:grid-cols-4 gap-10 border-b border-gray-800 pb-10">
+                <div>
+                    <h3 class="font-serif text-2xl font-bold mb-4 flex items-center justify-center md:justify-start gap-2">
+                        <div class="w-6 h-6 bg-brand-primary"></div> Home Decor
+                    </h3>
+                    <p class="text-gray-400 text-sm leading-relaxed">India's premium interior design company, creating spaces that tell your story.</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-brand-primary mb-4">Company</h4>
+                    <div class="flex flex-col gap-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition">About Us</a>
+                        <a href="#" class="hover:text-white transition">Projects</a>
+                        <a href="#" class="hover:text-white transition">Careers</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-brand-primary mb-4">Services</h4>
+                    <div class="flex flex-col gap-2 text-sm text-gray-400">
+                        <a href="#" class="hover:text-white transition">Modular Kitchen</a>
+                        <a href="#" class="hover:text-white transition">Wardrobes</a>
+                        <a href="#" class="hover:text-white transition">Full Home</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold text-brand-primary mb-4">Contact</h4>
+                    <p class="text-gray-400 text-sm flex items-center justify-center md:justify-start gap-2"><i data-lucide="map-pin" class="w-4 h-4"></i> Indiranagar, Bangalore</p>
+                    <p class="text-gray-400 text-sm mt-2 flex items-center justify-center md:justify-start gap-2"><i data-lucide="mail" class="w-4 h-4"></i> hello@homedecor.in</p>
+                </div>
             </div>
-          );
-        };
-
-        /* Navbar Component */
-        const Navbar = () => {
-          const [scrolled, setScrolled] = useState(false);
-          const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-          useEffect(() => {
-            const handleScroll = () => {
-              setScrolled(window.scrollY > 20);
-            };
-            window.addEventListener('scroll', handleScroll);
-            return () => window.removeEventListener('scroll', handleScroll);
-          }, []);
-
-          return (
-            <header 
-              className={`fixed top-0 left-0 right-0 z-50 flex flex-col transition-all duration-300 shadow-sm`}
-            >
-              {/* Top Bar - Collapses on scroll */}
-              <div 
-                className={`bg-brand-secondary text-white transition-all duration-500 ease-in-out overflow-hidden ${
-                  scrolled ? 'max-h-0 opacity-0' : 'max-h-12 opacity-100'
-                }`}
-              >
-                <div className="container mx-auto px-4 md:px-8 h-10 flex items-center justify-between text-xs md:text-sm">
-                  <div className="hidden sm:flex items-center gap-4 text-white/80">
-                    <span>✨ India's Most Trusted Interior Brand</span>
-                    <span className="hidden md:inline">•</span>
-                    <span className="hidden md:inline">Operating in 40+ Cities</span>
-                  </div>
-                  <div className="flex items-center gap-4 ml-auto w-full sm:w-auto justify-between sm:justify-end">
-                     <span className="sm:hidden text-white/90 font-medium">Design Your Dream Home</span>
-                     <button className="flex items-center gap-2 bg-brand-primary hover:bg-red-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all transform hover:scale-105 shadow-glow">
-                       <Calendar size={12} />
-                       Book Consultation
-                     </button>
-                  </div>
-                </div>
-              </div>
-
-              {/* Main Navbar */}
-              <nav 
-                className={`w-full bg-white/95 backdrop-blur-md transition-all duration-300 border-b border-gray-100 ${
-                  scrolled ? 'py-2' : 'py-4'
-                }`}
-              >
-                <div className="container mx-auto px-4 md:px-8">
-                  <div className="flex items-center justify-between">
-                    {/* Logo */}
-                    <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-                      <div className="w-8 h-8 bg-brand-primary rounded-tr-lg rounded-bl-lg"></div>
-                      <span className="text-xl md:text-2xl font-bold font-serif tracking-tight text-brand-secondary">
-                        Home Decor India
-                      </span>
-                    </div>
-
-                    {/* Desktop Menu */}
-                    <div className="hidden lg:flex items-center gap-6 xl:gap-8">
-                      {MENU_ITEMS.map((item) => (
-                        <a 
-                          key={item.label} 
-                          href={item.href}
-                          className="text-sm font-medium text-gray-600 hover:text-brand-primary transition-colors relative group"
-                        >
-                          {item.label}
-                          <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-brand-primary transition-all duration-300 group-hover:w-full"></span>
-                        </a>
-                      ))}
-                    </div>
-
-                    {/* Right Actions */}
-                    <div className="hidden lg:flex items-center gap-4">
-                        <div className="flex items-center gap-2 text-brand-secondary font-medium text-sm hover:text-brand-primary transition-colors cursor-pointer">
-                          <Phone size={16} className="text-brand-primary" />
-                          <span>1800-123-4567</span>
-                        </div>
-                        <Button size="sm">Get Free Quote</Button>
-                    </div>
-
-                    {/* Mobile Toggle */}
-                    <button 
-                      className="lg:hidden text-gray-700 hover:text-brand-primary transition-colors"
-                      onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    >
-                      {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-                    </button>
-                  </div>
-
-                  {/* Mobile Menu */}
-                  {mobileMenuOpen && (
-                    <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-xl border-t border-gray-100 p-4 flex flex-col gap-4 animate-in slide-in-from-top-2">
-                      {MENU_ITEMS.map((item) => (
-                        <a 
-                          key={item.label} 
-                          href={item.href}
-                          className="text-base font-medium text-gray-700 py-2 border-b border-gray-100 active:text-brand-primary"
-                          onClick={() => setMobileMenuOpen(false)}
-                        >
-                          {item.label}
-                        </a>
-                      ))}
-                        <Button fullWidth onClick={() => setMobileMenuOpen(false)}>Get Free Quote</Button>
-                    </div>
-                  )}
-                </div>
-              </nav>
-            </header>
-          );
-        };
-
-        /* Hero Component */
-        const Hero = () => {
-          return (
-            <section className="relative w-full h-[90vh] min-h-[600px] flex items-center pt-32 overflow-hidden">
-              <div className="absolute inset-0 z-0">
-                <img 
-                  src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000&auto=format&fit=crop" 
-                  alt="Modern Luxury Interior" 
-                  className="w-full h-full object-cover animate-in fade-in duration-[1500ms]"
-                />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent"></div>
-              </div>
-
-              <div className="container mx-auto px-4 md:px-8 relative z-10 text-white">
-                <div className="max-w-3xl">
-                  <h1 className="text-4xl md:text-6xl lg:text-7xl font-serif font-bold leading-tight mb-6 animate-in slide-in-from-bottom-10 fade-in duration-1000 fill-mode-forwards">
-                    Design Your Dream Home With India’s Trusted Experts
-                  </h1>
-                  <p className="text-lg md:text-2xl text-gray-200 mb-10 font-light max-w-xl animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-200 fill-mode-forwards opacity-0" style={{ animationFillMode: 'forwards' }}>
-                    Modular Interiors • Full Home Renovation • Turnkey Projects
-                  </p>
-                  <div className="flex flex-col sm:flex-row gap-4 animate-in slide-in-from-bottom-10 fade-in duration-1000 delay-500 fill-mode-forwards opacity-0" style={{ animationFillMode: 'forwards' }}>
-                    <Button size="lg" className="shadow-2xl shadow-brand-primary/40 transform hover:scale-105 transition-transform duration-300">
-                      Get Free Quote
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce text-white/70">
-                <div className="w-0.5 h-16 bg-gradient-to-b from-transparent via-white to-transparent"></div>
-              </div>
-            </section>
-          );
-        };
-
-        /* WhyChooseUs Component */
-        const WhyChooseUs = () => {
-          const features = [
-            { icon: <CheckCircle className="w-10 h-10 text-brand-primary" />, title: "End-to-End Service", desc: "From design to installation, we handle it all." },
-            { icon: <Clock className="w-10 h-10 text-brand-primary" />, title: "45 Days Delivery", desc: "Move into your dream home in just 45 days." },
-            { icon: <Users className="w-10 h-10 text-brand-primary" />, title: "Expert Designers", desc: "Dedicated team to personalize your space." },
-            { icon: <ShieldCheck className="w-10 h-10 text-brand-primary" />, title: "10-Year Warranty", desc: "Quality you can trust, backed by warranty." }
-          ];
-
-          return (
-            <section className="py-24 bg-brand-bg">
-              <div className="container mx-auto px-4 md:px-8">
-                <ScrollReveal variant="fade-up">
-                  <div className="text-center mb-16">
-                    <span className="text-brand-primary font-bold uppercase tracking-wider text-sm">Why Home Decor India</span>
-                    <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-secondary mt-3">The Gold Standard in Interiors</h2>
-                  </div>
-                </ScrollReveal>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {features.map((feature, index) => (
-                    <ScrollReveal key={index} variant="fade-up" delay={index * 150} className="h-full">
-                      <div className="bg-white p-8 rounded-2xl shadow-card hover:shadow-soft transition-all duration-500 transform hover:-translate-y-2 text-center group h-full border border-transparent hover:border-brand-primary/10">
-                        <div className="bg-brand-bg rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-500 shadow-sm">
-                          {feature.icon}
-                        </div>
-                        <h3 className="text-xl font-bold text-gray-800 mb-3">{feature.title}</h3>
-                        <p className="text-gray-500 leading-relaxed">{feature.desc}</p>
-                      </div>
-                    </ScrollReveal>
-                  ))}
-                </div>
-              </div>
-            </section>
-          );
-        };
-
-        /* WorkProcess Component */
-        const WorkProcess = () => {
-          const steps = [
-            { id: 1, title: "Meet Designer", desc: "Share your floor plan & ideas with our experts.", icon: <UserCheck size={28} /> },
-            { id: 2, title: "Design & Quote", desc: "Get personalized 3D designs & estimates.", icon: <PenTool size={28} /> },
-            { id: 3, title: "Production", desc: "Precision manufacturing in our factories.", icon: <Factory size={28} /> },
-            { id: 4, title: "Installation", desc: "Move in to your dream home within 45 days.", icon: <Home size={28} /> }
-          ];
-
-          const [isVisible, setIsVisible] = useState(false);
-          const sectionRef = useRef(null);
-
-          useEffect(() => {
-            const observer = new IntersectionObserver(([entry]) => {
-                if (entry.isIntersecting) { setIsVisible(true); observer.disconnect(); }
-              }, { threshold: 0.2 });
-            if (sectionRef.current) observer.observe(sectionRef.current);
-            return () => observer.disconnect();
-          }, []);
-
-          return (
-            <section ref={sectionRef} className="py-24 bg-white relative overflow-hidden">
-              <div className="container mx-auto px-4 md:px-8 relative z-10">
-                <div className={`text-center mb-20 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                  <span className="text-brand-primary font-bold uppercase tracking-widest text-xs mb-2 block">How It Works</span>
-                  <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-secondary">Your Dream Home in 4 Steps</h2>
-                </div>
-                <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
-                  <div className="hidden md:block absolute top-[50px] left-[12%] right-[12%] h-0.5 z-0">
-                      <div className="w-full h-full border-t-2 border-dashed border-gray-200"></div>
-                      <div className={`absolute top-[-1px] left-0 h-full border-t-2 border-dashed border-brand-primary transition-all duration-[2000ms] ease-out ${isVisible ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></div>
-                  </div>
-                  {steps.map((step, index) => (
-                    <div key={step.id} className={`relative flex flex-col items-center text-center group ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: `${index * 200}ms` }}>
-                      <div className="relative z-10 mb-8 transition-transform duration-300 group-hover:-translate-y-2">
-                        <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-card border border-gray-100 group-hover:shadow-glow group-hover:border-brand-primary/30 transition-all duration-300">
-                          <div className="w-20 h-20 bg-brand-bg rounded-full flex items-center justify-center text-brand-primary group-hover:bg-brand-primary group-hover:text-white transition-colors duration-300">
-                             {step.icon}
-                          </div>
-                        </div>
-                        <div className="absolute -top-2 -right-2 w-8 h-8 bg-brand-secondary text-white rounded-full flex items-center justify-center text-sm font-bold shadow-md border-2 border-white">{step.id}</div>
-                      </div>
-                      <div className="max-w-[240px] px-2">
-                        <h3 className="text-xl font-bold text-brand-secondary mb-3 group-hover:text-brand-primary transition-colors">{step.title}</h3>
-                        <p className="text-gray-500 text-sm leading-relaxed">{step.desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </section>
-          );
-        };
-
-        /* AiAssistant Component */
-        const AiAssistant = () => {
-          const [isOpen, setIsOpen] = useState(false);
-          const [input, setInput] = useState('');
-          const [isLoading, setIsLoading] = useState(false);
-          const [messages, setMessages] = useState([
-            { id: 'welcome', sender: ChatSender.AI, text: "Hello! I'm your AI Design Assistant. Ask me anything about colors, layouts, or trends for your home!" }
-          ]);
-          const messagesEndRef = useRef(null);
-
-          const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); };
-          useEffect(() => { scrollToBottom(); }, [messages, isOpen]);
-
-          const handleSend = async () => {
-            if (!input.trim()) return;
-            const userMsg = { id: Date.now().toString(), sender: ChatSender.USER, text: input };
-            setMessages(prev => [...prev, userMsg]);
-            setInput('');
-            setIsLoading(true);
-            const responseText = await generateDesignAdvice(input);
-            const aiMsg = { id: (Date.now() + 1).toString(), sender: ChatSender.AI, text: responseText };
-            setMessages(prev => [...prev, aiMsg]);
-            setIsLoading(false);
-          };
-
-          return (
-            <div className="fixed bottom-6 right-6 z-40 flex flex-col items-end">
-              {isOpen && (
-                <div className="bg-white rounded-2xl shadow-2xl mb-4 w-80 md:w-96 overflow-hidden border border-gray-100 flex flex-col h-[500px] animate-in slide-in-from-bottom-5 fade-in">
-                  <div className="bg-brand-primary p-4 flex justify-between items-center text-white">
-                    <div className="flex items-center gap-2">
-                      <Sparkles size={20} />
-                      <h3 className="font-bold">Design Assistant</h3>
-                    </div>
-                    <button onClick={() => setIsOpen(false)} className="hover:bg-white/20 rounded-full p-1"><X size={20} /></button>
-                  </div>
-                  <div className="flex-1 overflow-y-auto p-4 bg-brand-bg space-y-4">
-                    {messages.map((msg) => (
-                      <div key={msg.id} className={`flex ${msg.sender === ChatSender.USER ? 'justify-end' : 'justify-start'}`}>
-                        <div className={`max-w-[80%] p-3 rounded-2xl text-sm leading-relaxed ${msg.sender === ChatSender.USER ? 'bg-brand-primary text-white rounded-tr-none' : 'bg-white text-gray-700 shadow-sm rounded-tl-none border border-gray-100'}`}>
-                          {msg.text}
-                        </div>
-                      </div>
-                    ))}
-                    {isLoading && (
-                        <div className="flex justify-start">
-                          <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm flex gap-2">
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
-                          </div>
-                        </div>
-                    )}
-                    <div ref={messagesEndRef} />
-                  </div>
-                  <div className="p-3 bg-white border-t border-gray-100 flex gap-2">
-                    <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Ask about designs..." className="flex-1 bg-gray-100 rounded-full px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-brand-primary" />
-                    <button onClick={handleSend} disabled={isLoading || !input.trim()} className="bg-brand-secondary text-white p-2 rounded-full hover:bg-gray-800 disabled:opacity-50"><Send size={18} /></button>
-                  </div>
-                </div>
-              )}
-              <button onClick={() => setIsOpen(!isOpen)} className="bg-brand-secondary hover:bg-brand-primary text-white p-4 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center">
-                {isOpen ? <X size={24} /> : <MessageSquare size={24} />}
-              </button>
+            <div class="pt-8 text-center text-xs text-gray-500">
+                &copy; 2025 Home Decor India. All rights reserved.
             </div>
-          );
-        };
+        </div>
+    </footer>
 
-        /* Founder Component */
-        const Founder = () => {
-          return (
-            <section className="py-24 bg-white border-t border-gray-100">
-              <div className="container mx-auto px-4 md:px-8">
-                <ScrollReveal>
-                  <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
-                    <div className="w-full md:w-5/12 relative">
-                      <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
-                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop" alt="Er. Satyapal Singh" className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                        <div className="absolute bottom-6 left-6 text-white">
-                          <span className="block text-xs font-bold tracking-widest uppercase mb-1 opacity-80">Founder & CEO</span>
-                          <span className="text-2xl font-serif font-bold">Er. Satyapal Singh</span>
-                        </div>
-                      </div>
-                      <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-brand-bg rounded-full -z-10 hidden md:block"></div>
-                      <div className="absolute -top-6 -left-6 w-24 h-24 border-2 border-brand-primary/20 rounded-full -z-10 hidden md:block"></div>
-                    </div>
-                    <div className="w-full md:w-7/12">
-                      <Quote className="text-brand-primary w-12 h-12 mb-6 opacity-20" />
-                      <h2 className="text-3xl md:text-5xl font-serif font-bold text-brand-secondary mb-6 leading-tight">
-                        Engineering Precision Meets <span className="text-brand-primary">Artistic Luxury</span>.
-                      </h2>
-                      <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                        "When I started Home Decor India, my vision was simple: to bridge the gap between structural integrity and aesthetic beauty. As an engineer, I believe a home shouldn't just look good—it must be built to last. We don't just design spaces; we engineer lifestyles."
-                      </p>
-                      <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                        Every project we undertake is a personal commitment to excellence, ensuring that your dream home is delivered with the precision of an engineer and the heart of an artist.
-                      </p>
-                      <div className="flex flex-col gap-8">
-                        <div className="flex items-center gap-4">
-                          <div className="h-px w-12 bg-brand-primary"></div>
-                          <span className="font-serif italic text-2xl text-gray-800">Satyapal Singh</span>
-                        </div>
-                        <div className="flex flex-col sm:flex-row gap-4">
-                          <Button className="shadow-lg shadow-brand-primary/30">Get Free Quote</Button>
-                          <Button variant="outline">Book Consultation</Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </ScrollReveal>
-              </div>
-            </section>
-          );
-        };
-
-        /* Footer Component */
-        const Footer = () => {
-          return (
-            <footer className="bg-[#1a1a1a] text-gray-400 pt-24 pb-10">
-              <div className="container mx-auto px-4 md:px-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
-                  <ScrollReveal delay={0}>
-                    <div className="flex items-center gap-2 mb-6">
-                      <div className="w-8 h-8 bg-brand-primary rounded-tr-lg rounded-bl-lg"></div>
-                      <span className="text-2xl font-bold font-serif text-white">Home Decor India</span>
-                    </div>
-                    <p className="mb-8 text-sm leading-relaxed max-w-xs">India's most trusted home interiors brand. We bring you the best of design, quality, and service.</p>
-                    <div className="flex gap-4">
-                      {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
-                        <a key={i} href="#" className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-brand-primary hover:text-white transition-all duration-300"><Icon size={18} /></a>
-                      ))}
-                    </div>
-                  </ScrollReveal>
-                  <ScrollReveal delay={100}>
-                    <h4 className="text-white font-bold mb-6 text-lg">Company</h4>
-                    <ul className="space-y-3 text-sm">
-                      {['About Us', 'Careers', 'Privacy Policy', 'Terms of Service'].map((link, i) => (
-                        <li key={i}><a href="#" className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>{link}</a></li>
-                      ))}
-                    </ul>
-                  </ScrollReveal>
-                  <ScrollReveal delay={200}>
-                      <h4 className="text-white font-bold mb-6 text-lg">Services</h4>
-                      <ul className="space-y-3 text-sm">
-                        {MENU_ITEMS.slice(0, 4).map((item, i) => (
-                          <li key={i}><a href={item.href} className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>{item.label}</a></li>
-                        ))}
-                        <li><a href="#" className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>Design Consultation</a></li>
-                      </ul>
-                  </ScrollReveal>
-                  <ScrollReveal delay={300}>
-                    <h4 className="text-white font-bold mb-6 text-lg">Contact Us</h4>
-                    <ul className="space-y-6 text-sm">
-                      <li className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center shrink-0 text-brand-primary"><Phone size={18} /></div>
-                        <span><span className="block text-white font-medium mb-1">Call Us</span>1800-123-4567 <br/> <span className="text-xs text-gray-500">Mon-Sat, 10am - 7pm</span></span>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center shrink-0 text-brand-primary"><Mail size={18} /></div>
-                        <span><span className="block text-white font-medium mb-1">Email Us</span>hello@homedecorindia.com</span>
-                      </li>
-                      <li className="flex items-start gap-4">
-                        <div className="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center shrink-0 text-brand-primary"><MapPin size={18} /></div>
-                        <span><span className="block text-white font-medium mb-1">Visit Us</span>123, Design Avenue, <br/>Indiranagar, Bangalore - 560038</span>
-                      </li>
-                    </ul>
-                  </ScrollReveal>
-                </div>
-                <ScrollReveal variant="fade-in" delay={400}>
-                  <div className="border-t border-gray-800 pt-8 text-center text-xs flex flex-col md:flex-row justify-between items-center text-gray-500">
-                    <p>&copy; {new Date().getFullYear()} Home Decor India. All rights reserved.</p>
-                    <div className="mt-4 md:mt-0 flex flex-wrap gap-4 md:gap-6 justify-center">
-                       {["Mumbai", "Bangalore", "Delhi", "Hyderabad", "Pune", "Chennai"].map(city => <span key={city} className="hover:text-white transition cursor-pointer">{city}</span>)}
-                    </div>
-                  </div>
-                </ScrollReveal>
-              </div>
-            </footer>
-          );
-        };
-
-        /* MAIN APP */
-        const App = () => {
-          const [activeSlide, setActiveSlide] = useState(0);
-          const nextSlide = () => setActiveSlide((prev) => (prev + 1) % KITCHEN_SLIDES.length);
-          const prevSlide = () => setActiveSlide((prev) => (prev - 1 + KITCHEN_SLIDES.length) % KITCHEN_SLIDES.length);
-
-          return (
-            <div className="font-sans antialiased text-gray-800 bg-white">
-              <Navbar />
-              <Hero />
-              <WhyChooseUs />
-
-              {/* Categories Grid */}
-              <section className="py-24 container mx-auto px-4 md:px-8" id="interiors">
-                <ScrollReveal>
-                  <h2 className="text-3xl md:text-5xl font-serif font-bold text-center mb-4 text-brand-secondary">Interior Design for Every Space</h2>
-                  <p className="text-center text-gray-500 max-w-2xl mx-auto mb-16">Explore our wide range of interior designs crafted to perfection for every corner of your home.</p>
-                </ScrollReveal>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {SERVICE_CATEGORIES.map((cat, idx) => (
-                    <ScrollReveal key={idx} variant="fade-up" delay={idx * 100}>
-                      <div className="group relative rounded-2xl overflow-hidden shadow-card cursor-pointer h-full">
-                        <div className="aspect-[4/3] overflow-hidden">
-                          <img src={cat.image} alt={cat.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"/>
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity"></div>
-                        <div className="absolute bottom-0 left-0 p-6 w-full">
-                          <h3 className="text-2xl font-bold text-white mb-2 transform transition-transform duration-300 group-hover:-translate-y-1">{cat.title}</h3>
-                          <div className="flex items-center text-white/90 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity transform translate-y-4 group-hover:translate-y-0 duration-300">
-                            Explore Designs <ArrowRight size={16} className="ml-2" />
-                          </div>
-                        </div>
-                      </div>
-                    </ScrollReveal>
-                  ))}
-                </div>
-              </section>
-
-              {/* Modular Kitchen Slider */}
-              <section className="py-24 bg-brand-bg overflow-hidden" id="kitchen">
-                <div className="container mx-auto px-4 md:px-8 mb-10 flex justify-between items-end">
-                  <ScrollReveal>
-                    <span className="text-brand-primary font-bold uppercase text-sm tracking-wider">Heart of the Home</span>
-                    <h2 className="text-3xl md:text-5xl font-serif font-bold mt-2">Modular Kitchens</h2>
-                  </ScrollReveal>
-                  <div className="hidden md:flex gap-2">
-                    <button onClick={prevSlide} className="p-3 rounded-full bg-white shadow-md hover:bg-brand-primary hover:text-white transition duration-300"><ChevronLeft /></button>
-                    <button onClick={nextSlide} className="p-3 rounded-full bg-white shadow-md hover:bg-brand-primary hover:text-white transition duration-300"><ChevronRight /></button>
-                  </div>
-                </div>
-                <div className="container mx-auto px-4 md:px-8 relative">
-                   <ScrollReveal variant="zoom-in" duration={800}>
-                     <div className="relative w-full aspect-[16/9] md:aspect-[21/9] rounded-2xl overflow-hidden shadow-xl group">
-                        <img src={KITCHEN_SLIDES[activeSlide]} alt="Kitchen" className="w-full h-full object-cover transition-all duration-700 transform hover:scale-105" />
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors"></div>
-                        <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12">
-                           <Button className="shadow-lg">View All Kitchens</Button>
-                        </div>
-                        <div className="absolute inset-y-0 left-0 flex items-center md:hidden">
-                           <button onClick={(e) => {e.stopPropagation(); prevSlide();}} className="p-2 bg-black/30 text-white rounded-r-lg"><ChevronLeft size={20}/></button>
-                        </div>
-                        <div className="absolute inset-y-0 right-0 flex items-center md:hidden">
-                           <button onClick={(e) => {e.stopPropagation(); nextSlide();}} className="p-2 bg-black/30 text-white rounded-l-lg"><ChevronRight size={20}/></button>
-                        </div>
-                     </div>
-                   </ScrollReveal>
-                   <div className="flex justify-center mt-6 gap-2">
-                      {KITCHEN_SLIDES.map((_, idx) => (
-                        <button key={idx} onClick={() => setActiveSlide(idx)} className={`h-2 rounded-full transition-all duration-300 ${activeSlide === idx ? 'w-8 bg-brand-primary' : 'w-2 bg-gray-300 hover:bg-gray-400'}`} />
-                      ))}
-                   </div>
-                </div>
-              </section>
-
-              <WorkProcess />
-
-              {/* Portfolio Grid */}
-              <section className="py-24 bg-gray-50">
-                <div className="container mx-auto px-4 md:px-8">
-                  <ScrollReveal>
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
-                       <div className="text-center md:text-left">
-                          <span className="text-brand-primary font-bold uppercase tracking-wider text-sm">Our Portfolio</span>
-                          <h2 className="text-3xl md:text-5xl font-serif font-bold mt-2">Recent Projects</h2>
-                       </div>
-                       <Button variant="outline" className="hidden md:inline-flex border-gray-300 hover:border-brand-primary">View Full Portfolio</Button>
-                    </div>
-                  </ScrollReveal>
-                  <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-auto md:h-[600px]">
-                     {PORTFOLIO_ITEMS.map((item, idx) => (
-                       <ScrollReveal key={item.id} variant="zoom-in" delay={idx * 100} className={`h-full ${item.size === 'large' ? 'md:col-span-2 md:row-span-2' : item.size === 'medium' ? 'md:col-span-1 md:row-span-2' : 'md:col-span-1 md:row-span-1'}`}>
-                         <div className="relative group rounded-xl overflow-hidden cursor-pointer h-full w-full">
-                           <img src={item.image} alt={item.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                              <span className="text-brand-secondary text-xs font-bold uppercase tracking-wider bg-white/95 px-3 py-1.5 inline-block w-fit rounded-md mb-2 shadow-sm transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">{item.category}</span>
-                              <h3 className="text-white text-xl font-bold transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500 delay-75">{item.title}</h3>
-                           </div>
-                         </div>
-                       </ScrollReveal>
-                     ))}
-                  </div>
-                  <div className="mt-8 text-center md:hidden">
-                    <Button variant="outline" fullWidth>View Full Portfolio</Button>
-                  </div>
-                </div>
-              </section>
-
-              {/* Reviews */}
-              <section className="py-24 container mx-auto px-4 md:px-8">
-                <ScrollReveal>
-                  <div className="text-center mb-16">
-                    <span className="text-brand-primary font-bold uppercase tracking-wider text-sm">Testimonials</span>
-                    <h2 className="text-3xl md:text-5xl font-serif font-bold mt-2">Happy Families</h2>
-                    <p className="text-gray-500 mt-4">Don't just take our word for it.</p>
-                  </div>
-                </ScrollReveal>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                  {TESTIMONIALS.map((review, idx) => (
-                    <ScrollReveal key={review.id} variant="fade-up" delay={idx * 150} className="h-full">
-                      <div className="bg-white p-8 rounded-2xl shadow-card border border-gray-100 h-full hover:shadow-soft transition-shadow duration-300 flex flex-col">
-                          <div className="flex items-center gap-4 mb-6">
-                             <img src={review.image} alt={review.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-brand-bg" />
-                             <div>
-                               <h4 className="font-bold text-lg">{review.name}</h4>
-                               <div className="flex items-center text-gray-500 text-sm"><MapPin size={12} className="mr-1 text-brand-primary" /> {review.location}</div>
-                             </div>
-                          </div>
-                          <div className="flex text-yellow-400 mb-4">{[...Array(review.rating)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}</div>
-                          <p className="text-gray-600 italic leading-relaxed flex-1">"{review.text}"</p>
-                      </div>
-                    </ScrollReveal>
-                  ))}
-                </div>
-              </section>
-
-              {/* CTA Banner */}
-              <section className="py-24 bg-brand-bg relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-primary/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2 animate-pulse-slow"></div>
-                <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-gold/10 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2 animate-pulse-slow animation-delay-200"></div>
-                <div className="container mx-auto px-4 text-center relative z-10">
-                  <ScrollReveal variant="zoom-in">
-                    <h2 className="text-3xl md:text-5xl font-serif font-bold mb-6 text-brand-secondary">Ready to Design Your Dream Home?</h2>
-                    <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">Book a free consultation today and get a personalized design plan from India's top interior experts.</p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <Button size="lg" className="shadow-xl shadow-brand-primary/30 transform hover:scale-105 transition-transform">Get Free Quote</Button>
-                      <Button size="lg" variant="outline" className="border-brand-secondary text-brand-secondary hover:bg-brand-secondary hover:text-white transform hover:scale-105 transition-transform">Book Consultation</Button>
-                    </div>
-                  </ScrollReveal>
-                </div>
-              </section>
-
-              <Founder />
-              <Footer />
-              <AiAssistant />
+    <div class="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+        <div id="chat-box" class="hidden bg-white w-80 h-96 rounded-2xl shadow-2xl mb-4 border border-gray-100 flex-col overflow-hidden animate-[fadeIn_0.3s_ease-out]">
+            <div class="bg-brand-primary p-4 text-white flex justify-between items-center shadow-md">
+                <div class="flex items-center gap-2 font-bold"><i data-lucide="sparkles" class="w-4 h-4"></i> Design AI</div>
+                <button onclick="toggleChat()" class="hover:bg-white/20 rounded-full p-1 transition"><i data-lucide="x" class="w-4 h-4"></i></button>
             </div>
-          );
+            <div id="chat-msgs" class="flex-1 bg-gray-50 p-4 overflow-y-auto flex flex-col gap-3">
+                <div class="bg-white p-3 rounded-xl rounded-tl-none shadow-sm self-start text-sm text-gray-800 border border-gray-100">
+                    Namaste! I'm your Design AI. How can I help you beautify your home today?
+                </div>
+            </div>
+            <div class="p-3 bg-white border-t flex gap-2">
+                <input id="chat-input" class="flex-1 bg-gray-100 rounded-full px-4 text-sm outline-none focus:ring-2 focus:ring-brand-primary/50 transition" placeholder="Type here..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <button onclick="sendMessage()" class="bg-brand-secondary text-white p-2 rounded-full hover:bg-brand-primary transition shadow-md"><i data-lucide="send" class="w-4 h-4"></i></button>
+            </div>
+        </div>
+        <button onclick="toggleChat()" class="bg-brand-primary text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center group">
+            <i data-lucide="message-circle" class="w-7 h-7 group-hover:rotate-12 transition-transform"></i>
+        </button>
+    </div>
+
+    <script>
+        // A. Initialize Icons
+        lucide.createIcons();
+
+        // B. Loader Logic
+        window.onload = function() {
+            const loader = document.getElementById('loader');
+            loader.style.opacity = '0';
+            setTimeout(() => {
+                loader.style.display = 'none';
+                revealOnScroll(); // Trigger animations once loaded
+            }, 500);
         }
 
-        /* MOUNT */
-        const root = createRoot(document.getElementById('root'));
-        root.render(<App />);
+        // C. Scroll Animations (Intersection Observer)
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealOnScroll = () => {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 50) {
+                    el.classList.add('active');
+                }
+            });
+        };
+        window.addEventListener('scroll', revealOnScroll);
+
+        // D. Navbar Sticky Effect
+        const navbar = document.getElementById('navbar');
+        const topbar = document.getElementById('topbar');
+        const mainNav = document.getElementById('main-nav');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 20) {
+                topbar.style.height = '0px';
+                topbar.style.overflow = 'hidden';
+                topbar.style.padding = '0px';
+                mainNav.classList.add('py-2');
+                mainNav.classList.remove('py-4');
+            } else {
+                topbar.style.height = 'auto';
+                topbar.style.padding = '0.5rem 0';
+                mainNav.classList.add('py-4');
+                mainNav.classList.remove('py-2');
+            }
+        });
+
+        // E. Mobile Menu
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                menu.classList.add('flex');
+            } else {
+                menu.classList.add('hidden');
+                menu.classList.remove('flex');
+            }
+        }
+
+        // F. Slider Logic
+        const slides = [
+            "https://images.unsplash.com/photo-1556911220-e15b29be8c8f?q=80&w=1200",
+            "https://images.unsplash.com/photo-1563298723-dcfebaa392e3?q=80&w=1200",
+            "https://images.unsplash.com/photo-1556912173-3db9963ee790?q=80&w=1200",
+            "https://images.unsplash.com/photo-1484154218962-a1c002085d2f?q=80&w=1200"
+        ];
+        let currentSlide = 0;
+        const sliderImg = document.getElementById('slider-img');
+
+        function showSlide(index) {
+            sliderImg.style.opacity = 0;
+            setTimeout(() => {
+                sliderImg.src = slides[index];
+                sliderImg.style.opacity = 1;
+            }, 300);
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // G. Chat Logic
+        function toggleChat() {
+            const box = document.getElementById('chat-box');
+            if (box.classList.contains('hidden')) {
+                box.classList.remove('hidden');
+                box.classList.add('flex');
+            } else {
+                box.classList.add('hidden');
+                box.classList.remove('flex');
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('chat-input');
+            const msgs = document.getElementById('chat-msgs');
+            const text = input.value.trim();
+            
+            if (text) {
+                // User Message
+                const userDiv = document.createElement('div');
+                userDiv.className = "bg-brand-primary text-white p-3 rounded-xl rounded-tr-none self-end text-sm max-w-[85%] animate-[fadeIn_0.3s_ease-out]";
+                userDiv.innerText = text;
+                msgs.appendChild(userDiv);
+                
+                input.value = "";
+                msgs.scrollTop = msgs.scrollHeight;
+
+                // Fake AI Delay
+                setTimeout(() => {
+                    const aiDiv = document.createElement('div');
+                    aiDiv.className = "bg-white text-gray-800 p-3 rounded-xl rounded-tl-none shadow-sm self-start text-sm max-w-[85%] border border-gray-100 animate-[fadeIn_0.3s_ease-out]";
+                    aiDiv.innerText = "That's a great idea! For Indian homes, we recommend combining functionality with warm aesthetics. Would you like to schedule a free design consultation?";
+                    msgs.appendChild(aiDiv);
+                    msgs.scrollTop = msgs.scrollHeight;
+                }, 1000);
+            }
+        }
     </script>
 </body>
 </html>
