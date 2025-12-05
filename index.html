@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Home Decor India | Premium Interior Design</title>
     
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;500;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     
-    <!-- Babel for JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-    <!-- Tailwind Config -->
     <script>
       tailwind.config = {
         theme: {
@@ -35,9 +31,9 @@
               serif: ['"Playfair Display"', 'serif'],
             },
             boxShadow: {
-              'soft': '0 4px 20px rgba(0, 0, 0, 0.05)',
-              'card': '0 2px 12px rgba(0, 0, 0, 0.04)',
-              'glow': '0 0 15px rgba(235, 89, 95, 0.3)',
+              soft: '0 4px 20px rgba(0, 0, 0, 0.05)',
+              card: '0 2px 12px rgba(0, 0, 0, 0.04)',
+              glow: '0 0 15px rgba(235, 89, 95, 0.3)',
             },
             animation: {
               'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
@@ -62,33 +58,24 @@
       .animation-delay-300 { animation-delay: 300ms; }
       .animation-delay-400 { animation-delay: 400ms; }
     </style>
-<script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-    "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.31.0",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.555.0"
-  }
-}
-</script>
 </head>
 <body>
     <div id="root"></div>
 
-    <!-- Main Application Script -->
     <script type="text/babel" data-type="module">
+        // FIX: Using consistent React 18 imports from esm.sh to avoid version conflicts
         import React, { useState, useEffect, useRef } from 'https://esm.sh/react@18.2.0';
-        import ReactDOM from 'https://esm.sh/react-dom@18.2.0/client';
+        import { createRoot } from 'https://esm.sh/react-dom@18.2.0/client';
+        
+        // FIX: Ensuring lucide-react uses the SAME React version
         import { 
             Menu, X, Phone, User, Calendar, MessageSquare, Send, Sparkles, 
             Clock, ShieldCheck, Users, CheckCircle, ArrowRight, Star, 
             MapPin, ChevronLeft, ChevronRight, Check, Factory, PenTool, 
             UserCheck, Home, Quote, Facebook, Instagram, Twitter, Youtube, Mail 
-        } from 'https://esm.sh/lucide-react@0.330.0';
-        // Note: @google/genai requires specific environment setup, mocking for single file demo if API key missing.
-        // Importing class dynamically or using a fallback if module resolution fails in simple HTML
+        } from 'https://esm.sh/lucide-react@0.330.0?deps=react@18.2.0';
+
+        // Note: Google GenAI setup
         import { GoogleGenAI } from 'https://esm.sh/@google/genai@0.1.1';
 
         /* --- CONSTANTS --- */
@@ -365,11 +352,11 @@
 
                     {/* Right Actions */}
                     <div className="hidden lg:flex items-center gap-4">
-                       <div className="flex items-center gap-2 text-brand-secondary font-medium text-sm hover:text-brand-primary transition-colors cursor-pointer">
+                        <div className="flex items-center gap-2 text-brand-secondary font-medium text-sm hover:text-brand-primary transition-colors cursor-pointer">
                           <Phone size={16} className="text-brand-primary" />
                           <span>1800-123-4567</span>
-                       </div>
-                       <Button size="sm">Get Free Quote</Button>
+                        </div>
+                        <Button size="sm">Get Free Quote</Button>
                     </div>
 
                     {/* Mobile Toggle */}
@@ -394,7 +381,7 @@
                           {item.label}
                         </a>
                       ))}
-                       <Button fullWidth onClick={() => setMobileMenuOpen(false)}>Get Free Quote</Button>
+                        <Button fullWidth onClick={() => setMobileMenuOpen(false)}>Get Free Quote</Button>
                     </div>
                   )}
                 </div>
@@ -505,8 +492,8 @@
                 </div>
                 <div className="relative grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-4">
                   <div className="hidden md:block absolute top-[50px] left-[12%] right-[12%] h-0.5 z-0">
-                     <div className="w-full h-full border-t-2 border-dashed border-gray-200"></div>
-                     <div className={`absolute top-[-1px] left-0 h-full border-t-2 border-dashed border-brand-primary transition-all duration-[2000ms] ease-out ${isVisible ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></div>
+                      <div className="w-full h-full border-t-2 border-dashed border-gray-200"></div>
+                      <div className={`absolute top-[-1px] left-0 h-full border-t-2 border-dashed border-brand-primary transition-all duration-[2000ms] ease-out ${isVisible ? 'w-full opacity-100' : 'w-0 opacity-0'}`}></div>
                   </div>
                   {steps.map((step, index) => (
                     <div key={step.id} className={`relative flex flex-col items-center text-center group ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`} style={{ animationDelay: `${index * 200}ms` }}>
@@ -575,13 +562,13 @@
                       </div>
                     ))}
                     {isLoading && (
-                       <div className="flex justify-start">
-                         <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm flex gap-2">
-                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
-                           <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
-                         </div>
-                       </div>
+                        <div className="flex justify-start">
+                          <div className="bg-white p-3 rounded-2xl rounded-tl-none shadow-sm flex gap-2">
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-100"></div>
+                            <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce delay-200"></div>
+                          </div>
+                        </div>
                     )}
                     <div ref={messagesEndRef} />
                   </div>
@@ -673,13 +660,13 @@
                     </ul>
                   </ScrollReveal>
                   <ScrollReveal delay={200}>
-                     <h4 className="text-white font-bold mb-6 text-lg">Services</h4>
-                     <ul className="space-y-3 text-sm">
-                       {MENU_ITEMS.slice(0, 4).map((item, i) => (
-                         <li key={i}><a href={item.href} className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>{item.label}</a></li>
-                       ))}
-                       <li><a href="#" className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>Design Consultation</a></li>
-                     </ul>
+                      <h4 className="text-white font-bold mb-6 text-lg">Services</h4>
+                      <ul className="space-y-3 text-sm">
+                        {MENU_ITEMS.slice(0, 4).map((item, i) => (
+                          <li key={i}><a href={item.href} className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>{item.label}</a></li>
+                        ))}
+                        <li><a href="#" className="hover:text-brand-primary transition-colors flex items-center gap-2"><span className="w-1 h-1 rounded-full bg-brand-primary opacity-0 hover:opacity-100 transition-opacity"></span>Design Consultation</a></li>
+                      </ul>
                   </ScrollReveal>
                   <ScrollReveal delay={300}>
                     <h4 className="text-white font-bold mb-6 text-lg">Contact Us</h4>
@@ -832,15 +819,15 @@
                   {TESTIMONIALS.map((review, idx) => (
                     <ScrollReveal key={review.id} variant="fade-up" delay={idx * 150} className="h-full">
                       <div className="bg-white p-8 rounded-2xl shadow-card border border-gray-100 h-full hover:shadow-soft transition-shadow duration-300 flex flex-col">
-                         <div className="flex items-center gap-4 mb-6">
-                            <img src={review.image} alt={review.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-brand-bg" />
-                            <div>
-                              <h4 className="font-bold text-lg">{review.name}</h4>
-                              <div className="flex items-center text-gray-500 text-sm"><MapPin size={12} className="mr-1 text-brand-primary" /> {review.location}</div>
-                            </div>
-                         </div>
-                         <div className="flex text-yellow-400 mb-4">{[...Array(review.rating)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}</div>
-                         <p className="text-gray-600 italic leading-relaxed flex-1">"{review.text}"</p>
+                          <div className="flex items-center gap-4 mb-6">
+                             <img src={review.image} alt={review.name} className="w-14 h-14 rounded-full object-cover ring-2 ring-brand-bg" />
+                             <div>
+                               <h4 className="font-bold text-lg">{review.name}</h4>
+                               <div className="flex items-center text-gray-500 text-sm"><MapPin size={12} className="mr-1 text-brand-primary" /> {review.location}</div>
+                             </div>
+                          </div>
+                          <div className="flex text-yellow-400 mb-4">{[...Array(review.rating)].map((_, i) => <Star key={i} size={16} fill="currentColor" />)}</div>
+                          <p className="text-gray-600 italic leading-relaxed flex-1">"{review.text}"</p>
                       </div>
                     </ScrollReveal>
                   ))}
@@ -871,7 +858,7 @@
         }
 
         /* MOUNT */
-        const root = ReactDOM.createRoot(document.getElementById('root'));
+        const root = createRoot(document.getElementById('root'));
         root.render(<App />);
     </script>
 </body>
